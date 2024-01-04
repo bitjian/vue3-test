@@ -1,34 +1,13 @@
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-      <div>计算属性</div>
-      <div class="test" v-for="(item, index) in listState" :key="index" style="height: 40px; width: 100px; color: aquamarine;">
-        <div>{{ item.sname }}</div>
-      </div>
-      <div>直接解构</div>
-      <div class="test" v-for="(item, index) in someList" :key="index" style="height: 40px; width: 100px; color:pink;">
-        <div>{{ item.sname }}</div>
-      </div>
-      <div>使用storeToRefs</div>
-      <div class="test" v-for="(item, index) in someListRef" :key="index" style="height: 40px; width: 100px; color:orange;">
-        <div>{{ item.sname }}</div>
-      </div>
-      <div>直接使用store.state</div>
-      <div class="test" v-for="(item, index) in someStore.someList" :key="index" style="height: 40px; width: 100px; color:red;">
-        <div>{{ item.sname }}</div>
-      </div>
-
-      <!-- <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav> -->
+      <state-test color="aquamarine" title="计算属性" :some-list="listState"></state-test>
+      <state-test color="pink" title="直接解构" :some-list="someList"></state-test>
+      <state-test color="orange" title="使用storeToRefs" :some-list="someListRef"></state-test>
+      <state-test color="red" title="直接使用store.state" :some-list="someStore.someList"></state-test>
     </div>
   </header>
-
   <RouterView />
 </template>
 <script setup lang="ts">
@@ -37,6 +16,7 @@ import { errorLog } from '@/utils/index'
 import { onMounted, computed } from 'vue'
 import { useSomeList } from '@/stores/index'
 import { storeToRefs } from 'pinia'
+import StateTest from '@/components/StateTest.vue'
 const someStore = useSomeList()
 // 组件能监听到这里的属性变动
 const { someList:someListRef  } = storeToRefs(someStore)
@@ -60,35 +40,9 @@ header {
   line-height: 1.5;
   max-height: 100vh;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
+.wrapper {
+  display: flex;
+  gap: 5px;
 }
 
 @media (min-width: 1024px) {
@@ -106,12 +60,9 @@ nav a:first-of-type {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
-    flex-direction: column;
-
+    gap: 5px;
   }
-.test {
-  display: flex;
-}
+
   nav {
     text-align: left;
     margin-left: -1rem;
