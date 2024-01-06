@@ -18,7 +18,10 @@ interface CList {
 }
 interface SList {
   sid: number,
-  sname: string
+  sname: string,
+  cid: number,
+  ghost?: boolean,
+  color?: string
 }
 type ApiResponse<T> = Promise<[any, MResponse<T> | undefined]>;
 type ApiResponse<T> = Promise<[any, MResponse<T>]>;

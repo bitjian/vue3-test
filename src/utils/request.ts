@@ -1,4 +1,6 @@
 import Axios, { type AxiosResponse } from "axios";
+import router from '@/router/index'
+import {useSomeList} from '@/stores/index'
 import { RET_ENUM } from '@/utils/index'
 const axios = Axios.create({
   baseURL: ''
@@ -30,16 +32,19 @@ axios.interceptors.response.use((response) => {
     })
   }
   return response
-},  (err) => {
+}, (err) => {
   console.log('网络错误', err.message);
   Promise.reject(err.response);
 })
 
-export const post = <T>(url: string, data?: {[key:string]:any}): ApiResponse<T> => {
+export const post = <T>(url: string, data?: { [key: string]: any }): ApiResponse<T> => {
   return new Promise((resolve) => {
     axios
       .post(url, data)
       .then((result) => {
+        router.push('/home')
+        const store = useSomeList()
+        console.log(store.someList)
         resolve([null, result.data as MResponse<T>]);
       })
       .catch((err) => {

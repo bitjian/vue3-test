@@ -29,9 +29,7 @@ const useSomeList = defineStore('someList', {
         return
       }
       const { data } = res as MResponse<CList[]>
-      console.log(data)
       this.someList = this.someList.concat(data)
-      console.log(this.someList)
     },
     async getCategory() {
       const params = {
@@ -43,7 +41,6 @@ const useSomeList = defineStore('someList', {
         return
       }
       const { data } = res as MResponse<CList[]>
-      console.log(data)
       this.someCategory = data
     },
     async init() {

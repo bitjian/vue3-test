@@ -2,10 +2,10 @@
 <template>
   <header>
     <div class="wrapper">
-      <state-test color="aquamarine" title="计算属性" :some-list="listState"></state-test>
-      <state-test color="pink" title="直接解构" :some-list="someList"></state-test>
-      <state-test color="orange" title="使用storeToRefs" :some-list="someListRef"></state-test>
-      <state-test color="red" title="直接使用store.state" :some-list="someStore.someList"></state-test>
+      <state-test color="aquamarine" title="计算属性" :some-list="listState" key="aquamarine"></state-test>
+      <state-test color="pink" title="直接解构" :some-list="someList" key="pink"></state-test>
+      <state-test color="orange" title="使用storeToRefs" :some-list="someListRef" key="orange"></state-test>
+      <state-test color="red" title="直接使用store.state" :some-list="someStore.someList" key="red"></state-test>
     </div>
   </header>
   <RouterView />
@@ -17,19 +17,16 @@ import { onMounted, computed } from 'vue'
 import { useSomeList } from '@/stores/index'
 import { storeToRefs } from 'pinia'
 import StateTest from '@/components/StateTest.vue'
+import {useRouter } from 'vue-router'
+const router = useRouter()
+// router.push('/home')
 const someStore = useSomeList()
 // 组件能监听到这里的属性变动
 const { someList:someListRef  } = storeToRefs(someStore)
 const { someList  } = someStore
 const listState = computed(() => someStore.someList);
-
 console.log(someStore.GET_LIST)
 onMounted(async () => {
-  // const { data } = await axios({
-  //   method: 'get',
-  //   url: '/api'
-  // })
-  // console.log(data)
   await someStore.init()
 })
 errorLog('hello vue3')
